@@ -1,0 +1,118 @@
+# Idaho county parcel sources.
+#
+# Every county is listed. `status` says what we know:
+#   active     - pipeline downloads this county
+#   request    - county gives data on request only (email / FTP login / records request)
+#   unknown    - not researched yet
+#   none       - county does not publish digital parcels
+#
+# `type` (for active counties):
+#   download     - a zipped shapefile/geopackage at `url`
+#   arcgis_rest  - an ArcGIS MapServer/FeatureServer at `url`, read from `layers`
+#
+# `fields` maps our common schema (left) to the county's field names (right).
+# A list means "join these fields with spaces". Missing keys are left empty.
+#
+# Do NOT add the IDWR statewide service (gis.idwr.idaho.gov .../Reference/Parcels):
+# its terms say "This dataset cannot be shared outside IDWR".
+
+counties:
+  ada:
+    name: Ada
+    fips: "16001"
+    status: active
+    type: download
+    url: https://adacountyassessor.org/public/parcelspublic.zip
+    has_owner: false
+    lookup_url: https://apps.adacounty.id.gov/PropertyLookup/
+    source_page: https://adacounty.id.gov/assessor/assessor-data-analytics/ada-county-assessor-data/
+    notes: >
+      Free official download, refreshed by the assessor. Owner names and mailing
+      addresses are left out under Idaho Code 74-120; use the county property lookup.
+    fields:
+      pid: PARCEL
+      situs_addr: ADDRESS
+      situs_city: CITY_STATE
+      acres: ACRES
+      total_val: TOTALVALUE
+      prop_class: PROPCODE
+      zoning: ZONING
+      legal: [LEGAL1, LEGAL2, LEGAL3, LEGAL4, LEGAL5]
+      subdivision: SUBNM
+
+  kootenai:
+    name: Kootenai
+    fips: "16055"
+    status: active
+    type: arcgis_rest
+    url: https://map.kcgov.us/arcgis/rest/services/Assessor_Layers/MapServer
+    layers: [5, 6, 7, 8, 9, 10, 11]   # TaxParcels D1-D6 + Commercial
+    has_owner: true
+    source_page: https://kcgov.us/178/GIS-Mapping
+    notes: Public county assessor map service; includes owner and mailing address.
+    fields:
+      pid: PIN
+      alt_id: AIN
+      owner: Owner_Primary
+      mail_addr: [DeliveryAddr_Primary, LastLine_Primary]
+      situs_addr: Situs_FreeForm
+      situs_city: Situs_City
+      acres: PclArea_Acres
+      land_val: AssessValue_Land
+      impr_val: AssessValue_Imp
+      net_val: AssessValue_Net
+      prop_class: Property_ClassDescr
+      legal: Descr_FreeForm
+
+  canyon:
+    name: Canyon
+    fips: "16027"
+    status: request
+    source_page: https://www.canyoncounty.id.gov/departments/gis/
+    notes: >
+      Free, but via FTP login emailed by the Assessor's Plat Room on request.
+      Once you have the files, change status to active, type to download, and
+      point url at a local file path (file:///...).
+
+  # ---- Not researched yet. Fill in as each county is checked. ----
+  adams:      {name: Adams,      fips: "16003", status: unknown}
+  bannock:    {name: Bannock,    fips: "16005", status: unknown}
+  bear_lake:  {name: Bear Lake,  fips: "16007", status: unknown}
+  benewah:    {name: Benewah,    fips: "16009", status: unknown}
+  bingham:    {name: Bingham,    fips: "16011", status: unknown}
+  blaine:     {name: Blaine,     fips: "16013", status: unknown}
+  boise:      {name: Boise,      fips: "16015", status: unknown}
+  bonner:     {name: Bonner,     fips: "16017", status: unknown}
+  bonneville: {name: Bonneville, fips: "16019", status: unknown}
+  boundary:   {name: Boundary,   fips: "16021", status: unknown}
+  butte:      {name: Butte,      fips: "16023", status: unknown}
+  camas:      {name: Camas,      fips: "16025", status: unknown}
+  caribou:    {name: Caribou,    fips: "16029", status: unknown}
+  cassia:     {name: Cassia,     fips: "16031", status: unknown}
+  clark:      {name: Clark,      fips: "16033", status: unknown}
+  clearwater: {name: Clearwater, fips: "16035", status: unknown}
+  custer:     {name: Custer,     fips: "16037", status: unknown}
+  elmore:     {name: Elmore,     fips: "16039", status: unknown}
+  franklin:   {name: Franklin,   fips: "16041", status: unknown}
+  fremont:    {name: Fremont,    fips: "16043", status: unknown}
+  gem:        {name: Gem,        fips: "16045", status: unknown}
+  gooding:    {name: Gooding,    fips: "16047", status: unknown}
+  idaho:      {name: Idaho,      fips: "16049", status: unknown}
+  jefferson:  {name: Jefferson,  fips: "16051", status: unknown}
+  jerome:     {name: Jerome,     fips: "16053", status: unknown}
+  latah:      {name: Latah,      fips: "16057", status: unknown}
+  lemhi:      {name: Lemhi,      fips: "16059", status: unknown}
+  lewis:      {name: Lewis,      fips: "16061", status: unknown}
+  lincoln:    {name: Lincoln,    fips: "16063", status: unknown}
+  madison:    {name: Madison,    fips: "16065", status: unknown}
+  minidoka:   {name: Minidoka,   fips: "16067", status: unknown}
+  nez_perce:  {name: Nez Perce,  fips: "16069", status: unknown}
+  oneida:     {name: Oneida,     fips: "16071", status: unknown}
+  owyhee:     {name: Owyhee,     fips: "16073", status: unknown}
+  payette:    {name: Payette,    fips: "16075", status: unknown}
+  power:      {name: Power,      fips: "16077", status: unknown}
+  shoshone:   {name: Shoshone,   fips: "16079", status: unknown}
+  teton:      {name: Teton,      fips: "16081", status: unknown}
+  twin_falls: {name: Twin Falls, fips: "16083", status: unknown}
+  valley:     {name: Valley,     fips: "16085", status: unknown}
+  washington: {name: Washington, fips: "16087", status: unknown}

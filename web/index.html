@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#14532d" />
+    <meta name="description" content="Personal Idaho parcel map: boundaries, owners, GPS and notes." />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <title>Idaho Parcels</title>
+  </head>
+  <body>
+    <div id="map" aria-label="Parcel map"></div>
+
+    <header id="topbar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4a6 6 0 1 0 3.5 10.9l4.8 4.8 1.4-1.4-4.8-4.8A6 6 0 0 0 10 4Zm0 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8Z"/></svg>
+        <input id="search" type="search" placeholder="Address, owner or parcel #" autocomplete="off" enterkeyhint="search" aria-label="Search parcels" />
+        <ul id="results" role="listbox" hidden></ul>
+      </div>
+      <button id="btn-basemap" class="icon-btn" title="Switch to satellite" aria-label="Switch basemap">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Zm-7.2 8.6L12 15.6l7.2-4 1.8 1L12 17.6 3 12.6l1.8-1Zm0 4L12 19.6l7.2-4 1.8 1L12 21.6 3 16.6l1.8-1Z"/></svg>
+      </button>
+      <button id="btn-saved" class="icon-btn" title="My parcels" aria-label="My parcels">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/></svg>
+      </button>
+      <button id="btn-info" class="icon-btn" title="Coverage and backup" aria-label="Coverage and backup">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"/></svg>
+      </button>
+    </header>
+
+    <button id="btn-here" class="fab" aria-label="Show the parcel I'm standing in">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      <span>Parcel here</span>
+    </button>
+
+    <div id="zoom-hint" hidden>Zoom in to see parcel lines</div>
+
+    <aside id="panel" class="sheet" hidden aria-live="polite"></aside>
+
+    <aside id="saved" class="sheet" hidden>
+      <div class="sheet-head">
+        <h2>My parcels</h2>
+        <button class="close" data-close="saved" aria-label="Close">×</button>
+      </div>
+      <div id="saved-list"></div>
+    </aside>
+
+    <aside id="info" class="sheet" hidden>
+      <div class="sheet-head">
+        <h2>Coverage &amp; backup</h2>
+        <button class="close" data-close="info" aria-label="Close">×</button>
+      </div>
+      <section>
+        <h3>Backup your notes</h3>
+        <p class="muted">Notes are saved on this device only. Export a backup file to keep them safe or move them to another device.</p>
+        <div class="row-btns">
+          <button id="btn-export" class="btn">Export notes</button>
+          <label class="btn">Import notes<input id="file-import" type="file" accept="application/json,.json" hidden /></label>
+        </div>
+      </section>
+      <section>
+        <h3>Counties</h3>
+        <div id="coverage"></div>
+      </section>
+      <p class="muted small">Parcel lines come from county assessors and are approximate. They are not a legal survey.</p>
+    </aside>
+
+    <div id="toast" role="status" hidden></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

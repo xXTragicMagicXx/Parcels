@@ -1,0 +1,13 @@
+# pipeline downloads and intermediate files
+data/raw/
+data/work/
+# pipeline output (large; uploaded to R2, not committed)
+web/public/data/
+# web
+web/node_modules/
+web/dist/
+web/shots/
+web/dev-dist/
+__pycache__/
+*.pyc
+.venv/
